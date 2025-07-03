@@ -1,30 +1,31 @@
 <?php
 /*
  *  Copyright (C) 2018 Laksamadi Guko.
+ *  Créditos adicionais: Robson Alves - Cs Tech
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ *  Este programa é software livre; você pode redistribuí-lo e/ou modificá-lo
+ *  sob os termos da Licença Pública Geral GNU conforme publicada pela
+ *  Free Software Foundation; tanto a versão 2 da Licença, como (a seu critério)
+ *  qualquer versão posterior.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ *  Este programa é distribuído na expectativa de ser útil,
+ *  mas SEM NENHUMA GARANTIA; sem mesmo a garantia implícita de
+ *  COMERCIALIZAÇÃO ou ADEQUAÇÃO A UM DETERMINADO FIM. Veja a
+ *  Licença Pública Geral GNU para mais detalhes.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *  Você deve ter recebido uma cópia da Licença Pública Geral GNU
+ *  junto com este programa. Se não, veja <http://www.gnu.org/licenses/>.
  */
 session_start();
-// hide all error
+// ocultar todos os erros
 error_reporting(0);
 
 ob_start("ob_gzhandler");
 
-// check url
+// checar url
 $url = $_SERVER['REQUEST_URI'];
 
-// load session MikroTik
+// carregar sessão MikroTik
 $session = $_GET['session'];
 $id = $_GET['id'];
 $c = $_GET['c'];
@@ -37,7 +38,7 @@ $ids = array(
   "settings",
 );
 
-// lang
+// idioma
 include('./lang/isocodelang.php');
 include('./include/lang.php');
 include('./lang/'.$langid.'.php');
@@ -45,7 +46,7 @@ include('./lang/'.$langid.'.php');
 // quick bt
 include('./include/quickbt.php');
 
-// theme
+// tema
 include('./include/theme.php');
 include('./settings/settheme.php');
 include('./settings/setlang.php');
@@ -57,8 +58,7 @@ if ($_SESSION['theme'] == "") {
     $themecolor = $_SESSION['themecolor'];
 }
 
-
-// load config
+// carregar configurações
 include_once('./include/headhtml.php');
 include('./include/config.php');
 include('./include/readcfg.php');
@@ -79,7 +79,7 @@ if ($id == "login" || substr($url, -1) == "p") {
         echo "<script>window.location='./admin.php?id=sessions'</script>";
     
     } else {
-      $error = '<div style="width: 100%; padding:5px 0px 5px 0px; border-radius:5px;" class="bg-danger"><i class="fa fa-ban"></i> Alert!<br>Invalid username or password.</div>';
+      $error = '<div style="width: 100%; padding:5px 0px 5px 0px; border-radius:5px;" class="bg-danger"><i class="fa fa-ban"></i> Alerta!<br>Usuário ou senha inválidos.</div>';
     }
   }
   
@@ -119,15 +119,15 @@ if ($id == "login" || substr($url, -1) == "p") {
   $API = new RouterosAPI();
   $API->debug = false;
   if ($API->connect($iphost, $userhost, decrypt($passwdhost))){
-    $_SESSION["connect"] = "<b class='text-green'>Connected</b>";
+    $_SESSION["connect"] = "<b class='text-green'>Conectado</b>";
     echo "<script>window.location='./?session=" . $session . "'</script>";
   } else {
-    $_SESSION["connect"] = "<b class='text-red'>Not Connected</b>";
+    $_SESSION["connect"] = "<b class='text-red'>Não Conectado</b>";
     $nl = '\n';
     if ($currency == in_array($currency, $cekindo['indo'])) {
-      echo "<script>alert('Mikhmon not connected!".$nl."Silakan periksa kembali IP, User, Password dan port API harus enable.".$nl."Jika menggunakan koneksi VPN, pastikan VPN tersebut terkoneksi.')</script>";
+      echo "<script>alert('Mikhmon não conectado!".$nl."Por favor verifique o IP, Usuário, Senha e a porta da API deve estar habilitada.".$nl."Se estiver usando conexão VPN, certifique-se que a VPN está conectada.')</script>";
     }else{
-      echo "<script>alert('Mikhmon not connected!".$nl."Please check the IP, User, Password and port API must be enabled.')</script>";
+      echo "<script>alert('Mikhmon não conectado!".$nl."Por favor, verifique o IP, Usuário, Senha e a porta da API deve estar habilitada.')</script>";
     }
     if($c == "settings"){
       echo "<script>window.location='./admin.php?id=settings&session=" . $session . "'</script>";
@@ -159,7 +159,7 @@ if ($id == "login" || substr($url, -1) == "p") {
   include_once('./include/about.php');
 } elseif ($id == "logout") {
   include_once('./include/menu.php');
-  echo "<b class='cl-w'><i class='fa fa-circle-o-notch fa-spin' style='font-size:24px'></i> Logout...</b>";
+  echo "<b class='cl-w'><i class='fa fa-circle-o-notch fa-spin' style='font-size:24px'></i> Saindo...</b>";
   session_destroy();
   echo "<script>window.location='./admin.php?id=login'</script>";
 } elseif ($id == "remove-logo" && $logo != ""  && !empty($session)) {
@@ -180,6 +180,9 @@ if ($id == "login" || substr($url, -1) == "p") {
 <script src="js/mikhmon-ui.<?= $theme; ?>.min.js"></script>
 <script src="js/mikhmon.js?t=<?= str_replace(" ","_",date("Y-m-d H:i:s")); ?>"></script>
 <?php include('./include/info.php'); ?>
+
+<!--
+  Créditos adicionais: Robson Alves - Cs Tech
+-->
 </body>
 </html>
-
